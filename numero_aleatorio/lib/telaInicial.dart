@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 
@@ -10,10 +12,10 @@ class TelaInicial extends StatefulWidget {
 
 class _TelaInicialState extends State<TelaInicial> {
 
-  TextEditingController gasolina = TextEditingController();
-  TextEditingController alcool = TextEditingController();
+  TextEditingController num = TextEditingController();
 
   String resultado = "";
+  String aleatorio = "";
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +28,9 @@ class _TelaInicialState extends State<TelaInicial> {
   //metodos
   _barraInicial(){
     return AppBar(
+      backgroundColor: Colors.lightBlueAccent,
       title: Text(
-          "Álcool ou Gasolina"
+          "Número Aleatório"
       ),
     );
   }
@@ -39,12 +42,12 @@ class _TelaInicialState extends State<TelaInicial> {
         children: [
           SizedBox(height: 50,),
           _imagem(),
-          _campo("Valor Gasolina", gasolina ),
-          _campo("Valor Alcool", alcool ),
+          _campo("Pense em um número de 0 a 10", num ),
           SizedBox(height: 10,),
-          _botao("Verificar"),
+          _botao("Descobrir"),
           SizedBox(height: 50,),
-          _texto(),
+          _texto(aleatorio),
+          _texto(resultado),
           SizedBox(height: 50,),
         ],
       ),
@@ -53,8 +56,8 @@ class _TelaInicialState extends State<TelaInicial> {
 
   _imagem(){
     return Container(
-      child: Image.asset(
-        "assets/posto.png",
+      child: Image.network(
+        "https://cdn-icons-png.flaticon.com/512/752/752675.png",
         height: 100,
       ),
     );
@@ -73,12 +76,12 @@ class _TelaInicialState extends State<TelaInicial> {
     );
   }
 
-  _texto(){
+  _texto(String texto){
     return Text(
-      resultado,
+      texto,
       textAlign: TextAlign.center,
       style: TextStyle(
-        color: Colors.blue,
+        color: Colors.lightBlueAccent,
         fontSize: 20,
 
       ),
@@ -90,24 +93,23 @@ class _TelaInicialState extends State<TelaInicial> {
       child: Text(
         nome,
       ),
+      style: ElevatedButton.styleFrom(
+          primary: Colors.lightBlueAccent,
+      ),
     );
   }
 
   //funções
   void calcular(){
     setState(() {
-      if(gasolina.text.isNotEmpty && alcool.text.isNotEmpty){
-        double gas = double.parse(gasolina.text);
-        double alc = double.parse(alcool.text);
-        double result = alc/gas;
+      int numero = int.parse(num.text);
+      int random = new Random().nextInt(10);
+      aleatorio = random.toString();
 
-        if(result <= 0.7){
-          resultado = "É melhor abastecer com Álcool";
-        }else{
-          resultado = "É melhor abastecer com Gasolina";
-        }
+      if(random == numero){
+        resultado = "Ganhou!!";
       }else{
-        resultado = "Digite os dois valores";
+        resultado = "Não foi dessa vez!!";
       }
     });
   }
