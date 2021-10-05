@@ -13,7 +13,10 @@ class _TelaInicialState extends State<TelaInicial> {
   TextEditingController nome = TextEditingController();
   TextEditingController idade = TextEditingController();
 
-  String dropdownValor = "Sexo";
+  String dropdownSexo = 'Masculino';
+  String dropdownEscolaridade = 'Fundamental';
+  double valorSlider = 100;
+  bool switchValue = false;
 
   @override
   Widget build(BuildContext context) {
@@ -35,15 +38,46 @@ class _TelaInicialState extends State<TelaInicial> {
   _corpo(){
     return SingleChildScrollView(
       child: Container(
-        margin: EdgeInsetsDirectional.only(start: 50,end: 50),
+        margin: EdgeInsetsDirectional.only(start: 15,end: 15),
         child: Column(
           children: [
-            SizedBox(height: 50,),
-            _campo("Nome", nome ),
-            _campo("Idade", idade ),
-            _dropdown(),
+            Row(
+              children: [
+                _campo("Idade", idade ),
+                //erro por causa da Row
+          ],
+            ),
+
+            Row(
+              children: [
+                _texto("Sexo"),
+                SizedBox(width: 20,),
+                _dropdownSexo(),
+              ],
+            ),
+            Row(
+              children: [
+                _texto("Escolaridade"),
+                SizedBox(width: 20,),
+                _dropdownEscolaridade(),
+                SizedBox(width: 20,),
+              ],
+            ),
+            Row(
+              children: [
+                _texto("Limite"),
+                _slider(),
+                _texto("R\$" + valorSlider.toStringAsFixed(0)),
+              ],
+            ),
+            Row(
+              children: [
+                _texto("Brasileiro"),
+                _switch(),
+              ],
+            ),
             SizedBox(height: 10,),
-            _botao("Verificar"),
+            _botao("Confirmar"),
             SizedBox(height: 50,),
             _texto(""),
             SizedBox(height: 50,),
@@ -52,7 +86,6 @@ class _TelaInicialState extends State<TelaInicial> {
       ),
     );
   }
-}
 
   _imagem(){
     return Container(
@@ -64,15 +97,9 @@ class _TelaInicialState extends State<TelaInicial> {
   }
 
   _campo(String nome, TextEditingController variavel){
-    return Container(
-      child:
-      TextField(
-        keyboardType: TextInputType.number,
-        decoration: InputDecoration(
-          labelText: nome,
-        ),
+      return TextField(
+        keyboardType: TextInputType.text,
         controller: variavel,
-      ),
     );
   }
 
@@ -80,11 +107,6 @@ class _TelaInicialState extends State<TelaInicial> {
     return Text(
       texto,
       textAlign: TextAlign.center,
-      style: TextStyle(
-        color: Colors.blue,
-        fontSize: 20,
-
-      ),
     );
   }
 
@@ -96,28 +118,72 @@ class _TelaInicialState extends State<TelaInicial> {
     );
   }
 
-_dropdown() {
-  return DropdownButton<String>(
-    value: dropdownValue,
-    icon: const Icon(Icons.arrow_downward),
-    iconSize: 24,
-    elevation: 16,
-    style: const TextStyle(color: Colors.deepPurple),
-    underline: Container(
-      height: 2,
-      color: Colors.deepPurpleAccent,
-    ),
-    onChanged: (String? newValue) {
-      setState(() {
-        dropdownValue = newValue!;
-      });
-    },
-    items: <String>['One', 'Two', 'Free', 'Four']
-        .map<DropdownMenuItem<String>>((String value) {
-      return DropdownMenuItem<String>(
-        value: value,
-        child: Text(value),
-      );
-    }).toList(),
-  );
+  _dropdownSexo(){
+    return DropdownButton<String>(
+      value: dropdownSexo,
+      onChanged: (String? newValue) {
+        setState(() {
+          dropdownSexo = newValue!;
+        });
+      },
+      items: <String>['Masculino','Feminino']
+          .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+    );
+  }
+
+  _dropdownEscolaridade(){
+    return DropdownButton<String>(
+      value: dropdownEscolaridade,
+      onChanged: (String? newValue) {
+        setState(() {
+          dropdownEscolaridade = newValue!;
+        });
+      },
+      items: <String>['Fundamental','Medio','Superior']
+          .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+    );
+  }
+
+  _slider(){
+    return Slider(
+        value: valorSlider,
+        min: 0,
+        max: 15000,
+        divisions: 150,
+        label: valorSlider.round().toString(),
+        onChanged: (double value){
+          setState(() {
+            valorSlider = value;
+          });
+        }
+    );
+  }
+
+  _switch(){
+    return Switch(
+        value: switchValue,
+        onChanged: (bool value) {
+          setState(() {
+            switchValue = value;
+          });
+        }
+    );
+  }
+
+
+  void _confirmar(){
+    setState(() {
+
+    });
+  }
 }
