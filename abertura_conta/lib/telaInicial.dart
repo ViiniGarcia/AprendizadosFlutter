@@ -29,7 +29,7 @@ class _TelaInicialState extends State<TelaInicial> {
   //metodos
   _barraInicial(){
     return AppBar(
-      title: Text(
+      title: const Text(
           "Abertura de conta"
       ),
     );
@@ -38,7 +38,7 @@ class _TelaInicialState extends State<TelaInicial> {
   _corpo(){
     return SingleChildScrollView(
       child: Container(
-        margin: EdgeInsetsDirectional.only(start: 15,end: 15),
+        margin: const EdgeInsetsDirectional.only(start: 15,end: 15),
         child: Column(
           children: [
             Row(
@@ -51,7 +51,7 @@ class _TelaInicialState extends State<TelaInicial> {
             Row(
               children: [
                 _texto("Sexo"),
-                SizedBox(width: 20,),
+                const SizedBox(width: 20,),
                 _dropdownSexo(),
               ],
             ),
