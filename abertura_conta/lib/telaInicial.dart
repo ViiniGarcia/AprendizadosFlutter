@@ -10,13 +10,16 @@ class TelaInicial extends StatefulWidget {
 
 class _TelaInicialState extends State<TelaInicial> {
 
-  TextEditingController nome = TextEditingController();
-  TextEditingController idade = TextEditingController();
+  TextEditingController nomeController = TextEditingController();
+  TextEditingController idadeController = TextEditingController();
 
-  String dropdownSexo = 'Masculino';
-  String dropdownEscolaridade = 'Fundamental';
+  String nome = "";
+  String idade = "";
+  String dropdownSexo = ' ';
+  String dropdownEscolaridade = ' ';
   double valorSlider = 100;
   bool switchValue = false;
+  bool exibirResultado = false;
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +44,8 @@ class _TelaInicialState extends State<TelaInicial> {
         margin: const EdgeInsetsDirectional.only(start: 15,end: 15),
         child: Column(
           children: [
-            Row(
-              children: [
-                _campo("Idade", idade ),
-                //erro por causa da Row
-          ],
-            ),
-
+            _campo("Nome", nomeController ),
+            _campo("Idade", idadeController ),
             Row(
               children: [
                 _texto("Sexo"),
@@ -79,8 +77,55 @@ class _TelaInicialState extends State<TelaInicial> {
             SizedBox(height: 10,),
             _botao("Confirmar"),
             SizedBox(height: 50,),
-            _texto(""),
-            SizedBox(height: 50,),
+            Visibility(
+              visible: exibirResultado,
+                child:Column(
+                  children: [
+                    Row(
+                      children: [
+                        _texto("Nome"),
+                        SizedBox(width: 20,),
+                        _texto(nome),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        _texto("Idade"),
+                        SizedBox(width: 20,),
+                        _texto(idade),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        _texto("Sexo"),
+                        SizedBox(width: 20,),
+                        _texto(dropdownSexo),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        _texto("Escolaridade"),
+                        SizedBox(width: 20,),
+                        _texto(dropdownEscolaridade),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        _texto("Limite"),
+                        SizedBox(width: 20,),
+                        _texto(valorSlider.toStringAsFixed(0)),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        _texto("Nacionalidade"),
+                        SizedBox(width: 20,),
+                        _texto(_nacionalidade()),
+                      ],
+                    ),
+                  ],
+                ),
+            ),
           ],
         ),
       ),
@@ -98,6 +143,9 @@ class _TelaInicialState extends State<TelaInicial> {
 
   _campo(String nome, TextEditingController variavel){
       return TextField(
+        decoration: InputDecoration(
+          labelText: nome,
+        ),
         keyboardType: TextInputType.text,
         controller: variavel,
     );
@@ -111,7 +159,7 @@ class _TelaInicialState extends State<TelaInicial> {
   }
 
   _botao(String nome){
-    return ElevatedButton(onPressed: null,
+    return ElevatedButton(onPressed: _confirmar,
       child: Text(
         nome,
       ),
@@ -126,7 +174,7 @@ class _TelaInicialState extends State<TelaInicial> {
           dropdownSexo = newValue!;
         });
       },
-      items: <String>['Masculino','Feminino']
+      items: <String>[' ','Masculino','Feminino']
           .map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
@@ -144,7 +192,7 @@ class _TelaInicialState extends State<TelaInicial> {
           dropdownEscolaridade = newValue!;
         });
       },
-      items: <String>['Fundamental','Medio','Superior']
+      items: <String>[' ','Fundamental','Medio','Superior']
           .map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
@@ -183,7 +231,16 @@ class _TelaInicialState extends State<TelaInicial> {
 
   void _confirmar(){
     setState(() {
-
+      nome = nomeController.text;
+      idade = idadeController.text;
+      exibirResultado = true;
     });
+  }
+  String _nacionalidade(){
+    if(switchValue){
+      return "Brasileiro";
+    }else{
+      return "Não é brasileiro";
+    }
   }
 }
