@@ -48,7 +48,9 @@ class _TelaInicialState extends State<TelaInicial> {
               children: [
                 Image.network(
                   urlProduto,
-                fit: BoxFit.cover,
+                  height: 200,
+                  width: 200,
+                  fit: BoxFit.cover,
               ),
                 Text(
               nomeProduto,
