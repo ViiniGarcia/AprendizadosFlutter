@@ -1,6 +1,6 @@
 # abertura_conta
 
-A new Flutter project.
+Projeto para aprender Widgets novos para entrada de valores.
 
 ## Getting Started
 
